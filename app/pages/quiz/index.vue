@@ -2,7 +2,7 @@
   <div class="max-w-4xl mx-auto py-0 md:py-6">
     <div v-if="loading" class="text-center py-12">
       <div class="animate-spin text-4xl">⏳</div>
-      <p class="mt-2 text-gray-500">Loading quiz data...</p>
+      <p class="mt-2 text-tertiary">Loading quiz data...</p>
     </div>
 
     <div v-else-if="error" class="text-center py-12 text-red-500">

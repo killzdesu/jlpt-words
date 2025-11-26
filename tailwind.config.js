@@ -12,8 +12,11 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: '#2D2363',
-                secondary: '#F5C7E2',
+                primary: '#1A1A7A',
+                secondary: '#FDD1E0',
+                tertiary: '#807C9C',
+                neutral: '#F4F6F9',
+                text: '#1A1A2E',
             }
         },
     },

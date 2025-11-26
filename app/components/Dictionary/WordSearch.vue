@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+  <div class="bg-white p-6 rounded-xl shadow-sm border border-neutral">
     <div class="space-y-4">
       <!-- Search Input -->
       <div class="relative">
@@ -7,15 +7,15 @@
           v-model="query"
           type="text" 
           placeholder="Search (English, Kanji, Kana, Romaji)..."
-          class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+          class="w-full pl-10 pr-4 py-3 rounded-lg border border-neutral focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
           @input="emitSearch"
         />
-        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-tertiary">🔍</span>
       </div>
 
       <!-- Filters -->
       <div class="flex flex-wrap gap-2">
-        <span class="text-sm font-medium text-gray-500 self-center mr-2">Level:</span>
+        <span class="text-sm font-medium text-tertiary self-center mr-2">Level:</span>
         <button 
           v-for="level in levels" 
           :key="level"
@@ -23,7 +23,7 @@
           class="px-3 py-1 rounded-full text-sm font-medium transition-colors border"
           :class="selectedLevels.includes(level) 
             ? 'bg-primary text-white border-primary' 
-            : 'bg-white text-gray-600 border-gray-200 hover:border-primary/50'"
+            : 'bg-white text-tertiary border-neutral hover:border-primary/50'"
         >
           {{ level.toUpperCase() }}
         </button>

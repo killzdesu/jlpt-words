@@ -1,16 +1,16 @@
 <template>
   <div class="max-w-4xl mx-auto">
     <div class="flex items-center justify-between mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">History</h1>
+      <h1 class="text-3xl font-bold text-text">History</h1>
       <NuxtLink to="/" class="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
         <span>←</span> Back to Home
       </NuxtLink>
     </div>
 
-    <div v-if="history.length === 0" class="text-center py-12 bg-white rounded-2xl shadow-sm border border-gray-100">
+    <div v-if="history.length === 0" class="text-center py-12 bg-white rounded-2xl shadow-sm border border-neutral">
       <span class="text-6xl mb-4 block">📜</span>
-      <h3 class="text-xl font-bold text-gray-800 mb-2">No History Yet</h3>
-      <p class="text-gray-500 mb-6">Start a quiz to track your progress!</p>
+      <h3 class="text-xl font-bold text-text mb-2">No History Yet</h3>
+      <p class="text-tertiary mb-6">Start a quiz to track your progress!</p>
       <NuxtLink to="/quiz" class="inline-block bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-primary-dark transition-colors shadow-lg shadow-primary/30">
         Start Quiz
       </NuxtLink>
@@ -20,13 +20,13 @@
       <div 
         v-for="(item, index) in history" 
         :key="index"
-        class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300"
+        class="bg-white rounded-xl shadow-sm border border-neutral overflow-hidden transition-all duration-300"
         :class="{ 'ring-2 ring-primary/20': expandedIndex === index }"
       >
         <!-- Header / Summary Row -->
         <div 
           @click="toggleExpand(index)"
-          class="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors"
+          class="p-4 flex items-center justify-between cursor-pointer hover:bg-neutral transition-colors"
         >
           <div class="flex items-center gap-4">
             <div 
@@ -36,8 +36,8 @@
               {{ item.isCorrect ? '✓' : '✗' }}
             </div>
             <div>
-              <p class="font-bold text-gray-900 text-lg">{{ item.questionText }}</p>
-              <p class="text-sm text-gray-500">
+              <p class="font-bold text-text text-lg">{{ item.questionText }}</p>
+              <p class="text-sm text-tertiary">
                 {{ item.correctAnswer }}
                 <span v-if="!item.isCorrect" class="text-red-500 ml-2">
                   (You: {{ item.userAnswer }})
@@ -46,18 +46,18 @@
             </div>
           </div>
           <div class="flex items-center gap-3">
-             <span class="text-xs text-gray-400 hidden sm:inline-block">{{ formatDate(item.timestamp) }}</span>
-             <span class="text-gray-400 transform transition-transform duration-300" :class="{ 'rotate-180': expandedIndex === index }">▼</span>
+             <span class="text-xs text-tertiary hidden sm:inline-block">{{ formatDate(item.timestamp) }}</span>
+             <span class="text-tertiary transform transition-transform duration-300" :class="{ 'rotate-180': expandedIndex === index }">▼</span>
           </div>
         </div>
 
         <!-- Expanded Details -->
-        <div v-if="expandedIndex === index" class="border-t border-gray-100 bg-gray-50/50 p-4">
+        <div v-if="expandedIndex === index" class="border-t border-neutral bg-neutral/50 p-4">
           <div class="flex flex-wrap gap-2 mb-4">
             <button 
               @click.stop="toggleFavorite(item.wordId)"
               class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
-              :class="isFavorite(item.wordId) ? 'bg-yellow-100 text-yellow-700' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'"
+              :class="isFavorite(item.wordId) ? 'bg-yellow-100 text-yellow-700' : 'bg-white border border-neutral text-tertiary hover:bg-neutral'"
             >
               <span>{{ isFavorite(item.wordId) ? '★' : '☆' }}</span>
               {{ isFavorite(item.wordId) ? 'Favorited' : 'Add to Favorites' }}
@@ -66,7 +66,7 @@
             <button 
               @click.stop="toggleBlocked(item.wordId)"
               class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
-              :class="isBlocked(item.wordId) ? 'bg-red-100 text-red-700' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'"
+              :class="isBlocked(item.wordId) ? 'bg-red-100 text-red-700' : 'bg-white border border-neutral text-tertiary hover:bg-neutral'"
             >
               <span>{{ isBlocked(item.wordId) ? '🚫' : '⭕' }}</span>
               {{ isBlocked(item.wordId) ? 'Blocked' : 'Block Word' }}

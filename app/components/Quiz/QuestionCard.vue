@@ -1,41 +1,41 @@
 <template>
   <div class="max-w-2xl mx-auto w-full">
     <!-- Progress Bar -->
-    <div class="mb-2 md:mb-4 flex justify-between items-center text-sm font-medium text-gray-500">
+    <div class="mb-2 md:mb-4 flex justify-between items-center text-sm font-medium text-tertiary">
       <span>Question {{ currentNumber }} / {{ totalNumber }}</span>
       <span>{{ Math.round((currentNumber / totalNumber) * 100) }}%</span>
     </div>
-    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 md:mb-8">
+    <div class="w-full bg-neutral rounded-full h-2.5 mb-4 md:mb-8">
       <div class="bg-primary h-2.5 rounded-full transition-all duration-500" :style="{ width: `${(currentNumber / totalNumber) * 100}%` }"></div>
     </div>
 
     <!-- Question Card -->
-    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-lg border border-neutral overflow-hidden">
       <!-- Question Header -->
-      <div class="bg-gray-50 p-4 md:p-8 text-center border-b border-gray-100 relative">
-        <span class="absolute top-4 right-4 text-xs font-bold px-2 py-1 bg-white border rounded text-gray-500">
+      <div class="bg-neutral p-4 md:p-8 text-center border-b border-neutral relative">
+        <span class="absolute top-4 right-4 text-xs font-bold px-2 py-1 bg-white border rounded text-tertiary">
           {{ question.level }}
         </span>
         
-        <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-2">{{ question.questionText }}</h2>
+        <h2 class="text-2xl md:text-4xl font-bold text-text mb-2">{{ question.questionText }}</h2>
         
         <!-- Conditional Hint Display -->
-        <p v-if="shouldShowHint" class="text-gray-500 text-base md:text-lg">{{ question.hint }}</p>
+        <p v-if="shouldShowHint" class="text-tertiary text-base md:text-lg">{{ question.hint }}</p>
 
         <!-- Action Buttons -->
         <div class="absolute top-4 left-4 flex gap-2">
           <button 
             @click.stop="toggleFavorite"
             class="p-1.5 rounded-full bg-white border hover:bg-pink-50 transition-colors"
-            :class="isFavorite ? 'text-secondary border-secondary' : 'text-gray-300 border-gray-200'"
+            :class="isFavorite ? 'text-secondary border-secondary' : 'text-tertiary/50 border-neutral'"
           >
             <span v-if="isFavorite">❤️</span>
             <span v-else>🤍</span>
           </button>
           <button 
             @click.stop="toggleBlocked"
-            class="p-1.5 rounded-full bg-white border hover:bg-gray-100 transition-colors"
-            :class="isBlocked ? 'text-red-500 border-red-500' : 'text-gray-300 border-gray-200'"
+            class="p-1.5 rounded-full bg-white border hover:bg-neutral transition-colors"
+            :class="isBlocked ? 'text-red-500 border-red-500' : 'text-tertiary/50 border-neutral'"
           >
             🚫
           </button>
@@ -61,12 +61,12 @@
       </div>
 
       <!-- Answer Detail -->
-      <div v-if="showAnswer" class="bg-blue-50 p-6 border-t border-blue-100 animate-fade-in">
+      <div v-if="showAnswer" class="bg-primary/5 p-6 border-t border-primary/10 animate-fade-in">
         <div class="flex justify-between items-start">
           <div>
-            <h3 class="font-bold text-blue-900 mb-1">Correct Answer:</h3>
-            <p class="text-xl text-blue-800">{{ question.correctAnswer }}</p>
-            <div class="mt-2 text-blue-700 text-sm space-y-1">
+            <h3 class="font-bold text-primary mb-1">Correct Answer:</h3>
+            <p class="text-xl text-primary">{{ question.correctAnswer }}</p>
+            <div class="mt-2 text-primary/80 text-sm space-y-1">
               <p><span class="font-semibold">Reading:</span> {{ question.detail.reading }}</p>
               <p><span class="font-semibold">Meaning:</span> {{ question.detail.meaning }}</p>
             </div>
@@ -80,7 +80,7 @@
         </div>
         
         <!-- Kanji Detail Toggle -->
-        <div class="mt-4 pt-4 border-t border-blue-200">
+        <div class="mt-4 pt-4 border-t border-primary/10">
           <button 
             @click="showKanjiDetail = !showKanjiDetail"
             class="text-sm text-primary hover:underline flex items-center gap-1"
@@ -139,7 +139,7 @@ const selectChoice = (choice: string) => {
 
 const getChoiceClass = (choice: string) => {
   if (!props.showAnswer) {
-    return 'border-gray-200 hover:border-primary hover:bg-primary/5';
+    return 'border-neutral hover:border-primary hover:bg-primary/5';
   }
   if (choice === props.question.correctAnswer) {
     return 'border-green-500 bg-green-50 text-green-900';
@@ -147,7 +147,7 @@ const getChoiceClass = (choice: string) => {
   if (choice === props.selectedChoice) {
     return 'border-red-500 bg-red-50 text-red-900';
   }
-  return 'border-gray-200 opacity-50';
+  return 'border-neutral opacity-50';
 };
 </script>
 

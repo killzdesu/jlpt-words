@@ -1,33 +1,33 @@
 <template>
-  <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-100">
+  <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-md border border-neutral">
     <h2 class="text-2xl font-bold text-primary mb-6">Quiz Settings</h2>
     
     <div class="space-y-6">
       <!-- Number of Questions -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Number of Questions</label>
+        <label class="block text-sm font-medium text-text mb-2">Number of Questions</label>
         <input 
           v-model.number="settings.quizCount" 
           type="number" 
           min="5" 
           max="50" 
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+          class="w-full px-4 py-2 border border-tertiary/30 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
         />
       </div>
 
       <!-- Quiz Type -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Quiz Type</label>
+        <label class="block text-sm font-medium text-text mb-2">Quiz Type</label>
         <div class="space-y-2">
-          <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors" :class="settings.quizType === 'jp-en' ? 'border-primary bg-primary/5' : 'border-gray-200'">
+          <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-neutral transition-colors" :class="settings.quizType === 'jp-en' ? 'border-primary bg-primary/5' : 'border-neutral'">
             <input type="radio" v-model="settings.quizType" value="jp-en" class="text-primary focus:ring-primary" />
             <span>🇯🇵 JP to EN</span>
           </label>
-          <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors" :class="settings.quizType === 'en-jp' ? 'border-primary bg-primary/5' : 'border-gray-200'">
+          <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-neutral transition-colors" :class="settings.quizType === 'en-jp' ? 'border-primary bg-primary/5' : 'border-neutral'">
             <input type="radio" v-model="settings.quizType" value="en-jp" class="text-primary focus:ring-primary" />
             <span>🇺🇸 EN to JP</span>
           </label>
-          <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors" :class="settings.quizType === 'kanji-reading' ? 'border-primary bg-primary/5' : 'border-gray-200'">
+          <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-neutral transition-colors" :class="settings.quizType === 'kanji-reading' ? 'border-primary bg-primary/5' : 'border-neutral'">
             <input type="radio" v-model="settings.quizType" value="kanji-reading" class="text-primary focus:ring-primary" />
             <span>🈳 Kanji Reading</span>
           </label>
@@ -36,7 +36,7 @@
 
       <!-- JLPT Levels -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">JLPT Levels</label>
+        <label class="block text-sm font-medium text-text mb-2">JLPT Levels</label>
         <div class="flex flex-wrap gap-3">
           <label 
             v-for="level in ['n1', 'n2', 'n3', 'n4', 'n5']" 
@@ -48,7 +48,7 @@
               class="inline-block px-4 py-2 rounded-full border text-sm font-medium transition-all select-none"
               :class="settings.jlptLevels.includes(level) 
                 ? 'bg-primary text-white border-primary shadow-sm' 
-                : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'"
+                : 'bg-white text-tertiary border-neutral hover:border-tertiary/50'"
             >
               {{ level.toUpperCase() }}
             </span>
@@ -61,11 +61,11 @@
       <div class="space-y-3">
         <label class="flex items-center space-x-3 cursor-pointer">
           <input type="checkbox" v-model="settings.onlyFavorites" class="rounded text-primary focus:ring-primary" />
-          <span class="text-gray-700">Only Favorites</span>
+          <span class="text-text">Only Favorites</span>
         </label>
         <label class="flex items-center space-x-3 cursor-pointer">
           <input type="checkbox" v-model="settings.excludeBlocked" class="rounded text-primary focus:ring-primary" />
-          <span class="text-gray-700">Exclude Blocked Words</span>
+          <span class="text-text">Exclude Blocked Words</span>
         </label>
       </div>
 

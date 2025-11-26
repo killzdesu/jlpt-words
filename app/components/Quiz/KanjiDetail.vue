@@ -3,28 +3,28 @@
     <div 
       v-for="(k, index) in kanjiDetails" 
       :key="index"
-      class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm"
+      class="bg-white p-4 rounded-lg border border-neutral shadow-sm"
     >
       <div class="flex items-center gap-4 mb-2 border-b pb-2">
         <span class="text-3xl font-bold text-primary">{{ k.kanji }}</span>
-        <span class="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-600 font-medium">{{ k.level || 'Joyo' }}</span>
+        <span class="text-xs px-2 py-1 bg-neutral rounded-full text-tertiary font-medium">{{ k.level || 'Joyo' }}</span>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
         <div>
-          <span class="text-gray-500 text-xs uppercase tracking-wider block mb-0.5">Onyomi</span>
-          <p class="font-medium text-gray-800">{{ k.onyomi || '-' }}</p>
+          <span class="text-tertiary text-xs uppercase tracking-wider block mb-0.5">Onyomi</span>
+          <p class="font-medium text-text">{{ k.onyomi || '-' }}</p>
         </div>
         <div>
-          <span class="text-gray-500 text-xs uppercase tracking-wider block mb-0.5">Kunyomi</span>
-          <p class="font-medium text-gray-800">{{ k.kunyomi || '-' }}</p>
+          <span class="text-tertiary text-xs uppercase tracking-wider block mb-0.5">Kunyomi</span>
+          <p class="font-medium text-text">{{ k.kunyomi || '-' }}</p>
         </div>
         <div class="sm:col-span-2">
-          <span class="text-gray-500 text-xs uppercase tracking-wider block mb-0.5">Meaning</span>
-          <p class="font-medium text-gray-800">{{ k.meaning }}</p>
+          <span class="text-tertiary text-xs uppercase tracking-wider block mb-0.5">Meaning</span>
+          <p class="font-medium text-text">{{ k.meaning }}</p>
         </div>
       </div>
     </div>
-    <div v-if="kanjiDetails.length === 0" class="text-center py-4 text-gray-500 italic bg-gray-50 rounded-lg border border-dashed border-gray-300">
+    <div v-if="kanjiDetails.length === 0" class="text-center py-4 text-tertiary italic bg-neutral/50 rounded-lg border border-dashed border-tertiary/30">
       No Kanji details available for this word.
     </div>
   </div>

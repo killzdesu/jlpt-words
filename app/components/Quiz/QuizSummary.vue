@@ -6,7 +6,7 @@
       {{ score }} / {{ total }}
     </div>
     
-    <p class="text-gray-600 text-lg">
+    <p class="text-text text-lg">
       {{ feedbackMessage }}
     </p>
 
@@ -30,7 +30,7 @@
       </button>
       <NuxtLink 
         to="/"
-        class="w-full py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors block"
+        class="w-full py-3 bg-white border border-neutral text-text font-bold rounded-xl hover:bg-neutral transition-colors block"
       >
         Back to Home
       </NuxtLink>

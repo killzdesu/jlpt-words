@@ -6,7 +6,7 @@
 
     <div v-if="loading" class="text-center py-12">
       <div class="animate-spin text-4xl">⏳</div>
-      <p class="mt-2 text-gray-500">Loading dictionary...</p>
+      <p class="mt-2 text-tertiary">Loading dictionary...</p>
     </div>
 
     <div v-else-if="error" class="text-center py-12 text-red-500">
@@ -14,7 +14,7 @@
     </div>
 
     <div v-else class="space-y-4">
-      <div class="flex justify-between items-center text-sm text-gray-500 px-1">
+      <div class="flex justify-between items-center text-sm text-tertiary px-1">
         <span>Found {{ filteredWords.length }} words</span>
         <span v-if="filteredWords.length > displayLimit">Showing first {{ displayLimit }}</span>
       </div>
@@ -27,14 +27,14 @@
         />
       </div>
       
-      <div v-if="filteredWords.length === 0" class="text-center py-12 bg-white rounded-xl border border-dashed border-gray-300">
-        <p class="text-gray-500">No words found matching your criteria.</p>
+      <div v-if="filteredWords.length === 0" class="text-center py-12 bg-white rounded-xl border border-dashed border-tertiary/30">
+        <p class="text-tertiary">No words found matching your criteria.</p>
       </div>
 
       <div v-if="filteredWords.length > displayLimit" class="text-center pt-4">
         <button 
           @click="displayLimit += 50"
-          class="px-6 py-2 bg-white border border-gray-300 rounded-full hover:bg-gray-50 transition-colors text-sm font-medium"
+          class="px-6 py-2 bg-white border border-tertiary/30 rounded-full hover:bg-neutral transition-colors text-sm font-medium"
         >
           Load More
         </button>

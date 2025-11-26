@@ -10,7 +10,7 @@ useHead({
     { rel: 'icon', href: '/favicon.ico' }
   ],
   meta: [
-    { name: 'theme-color', content: '#2D2363' },
+    { name: 'theme-color', content: '#1A1A7A' },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
     { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
   ],
