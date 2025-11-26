@@ -47,7 +47,7 @@
     </div>
 
     <div class="mt-8 text-center">
-      <p class="text-xs text-gray-400">v1.0.1</p>
+      <p class="text-xs text-gray-400">v1.0.3</p>
     </div>
   </div>
 </template>

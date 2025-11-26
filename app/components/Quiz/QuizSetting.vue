@@ -21,15 +21,15 @@
         <div class="space-y-2">
           <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors" :class="settings.quizType === 'jp-en' ? 'border-primary bg-primary/5' : 'border-gray-200'">
             <input type="radio" v-model="settings.quizType" value="jp-en" class="text-primary focus:ring-primary" />
-            <span>🇯🇵-🇺🇸 Japanese Quiz</span>
+            <span>🇯🇵 JP to EN</span>
           </label>
           <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors" :class="settings.quizType === 'en-jp' ? 'border-primary bg-primary/5' : 'border-gray-200'">
             <input type="radio" v-model="settings.quizType" value="en-jp" class="text-primary focus:ring-primary" />
-            <span>🇺🇸-🇯🇵 English Quiz</span>
+            <span>🇺🇸 EN to JP</span>
           </label>
           <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors" :class="settings.quizType === 'kanji-reading' ? 'border-primary bg-primary/5' : 'border-gray-200'">
             <input type="radio" v-model="settings.quizType" value="kanji-reading" class="text-primary focus:ring-primary" />
-            <span>🈳 Kanji Quiz</span>
+            <span>🈳 Kanji Reading</span>
           </label>
         </div>
       </div>

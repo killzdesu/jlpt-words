@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto py-8">
+  <div class="max-w-4xl mx-auto py-4 md:py-8">
     <div v-if="loading" class="text-center py-12">
       <div class="animate-spin text-4xl">⏳</div>
       <p class="mt-2 text-gray-500">Loading quiz data...</p>

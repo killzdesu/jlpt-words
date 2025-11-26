@@ -11,11 +11,11 @@
       </span>
     </div>
     
-    <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+    <div class="flex gap-2">
       <button 
         @click="userStore.toggleFavorite(word.id)"
-        class="p-2 rounded-full hover:bg-pink-50 transition-colors"
-        :class="isFavorite ? 'text-secondary' : 'text-gray-300'"
+        class="p-2 rounded-full hover:bg-pink-50 transition-all duration-200"
+        :class="isFavorite ? 'text-secondary opacity-100' : 'text-gray-300 opacity-0 group-hover:opacity-100'"
         title="Add to Favorites"
       >
         <span v-if="isFavorite">❤️</span>
@@ -23,8 +23,8 @@
       </button>
       <button 
         @click="userStore.toggleBlocked(word.id)"
-        class="p-2 rounded-full hover:bg-gray-100 transition-colors"
-        :class="isBlocked ? 'text-red-500' : 'text-gray-300'"
+        class="p-2 rounded-full hover:bg-gray-100 transition-all duration-200"
+        :class="isBlocked ? 'text-red-500 opacity-100' : 'text-gray-300 opacity-0 group-hover:opacity-100'"
         title="Block Word"
       >
         🚫

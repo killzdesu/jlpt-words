@@ -5,22 +5,22 @@
       <span>Question {{ currentNumber }} / {{ totalNumber }}</span>
       <span>{{ Math.round((currentNumber / totalNumber) * 100) }}%</span>
     </div>
-    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 md:mb-8">
       <div class="bg-primary h-2.5 rounded-full transition-all duration-500" :style="{ width: `${(currentNumber / totalNumber) * 100}%` }"></div>
     </div>
 
     <!-- Question Card -->
     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
       <!-- Question Header -->
-      <div class="bg-gray-50 p-8 text-center border-b border-gray-100 relative">
+      <div class="bg-gray-50 p-4 md:p-8 text-center border-b border-gray-100 relative">
         <span class="absolute top-4 right-4 text-xs font-bold px-2 py-1 bg-white border rounded text-gray-500">
           {{ question.level }}
         </span>
         
-        <h2 class="text-4xl font-bold text-gray-900 mb-2">{{ question.questionText }}</h2>
+        <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-2">{{ question.questionText }}</h2>
         
         <!-- Conditional Hint Display -->
-        <p v-if="shouldShowHint" class="text-gray-500 text-lg">{{ question.hint }}</p>
+        <p v-if="shouldShowHint" class="text-gray-500 text-base md:text-lg">{{ question.hint }}</p>
 
         <!-- Action Buttons -->
         <div class="absolute top-4 left-4 flex gap-2">
@@ -43,16 +43,16 @@
       </div>
 
       <!-- Choices -->
-      <div class="p-6 grid gap-4 grid-cols-1 md:grid-cols-2">
+      <div class="p-4 md:p-6 grid gap-2 md:gap-4 grid-cols-1 md:grid-cols-2">
         <button 
           v-for="(choice, index) in question.choices" 
           :key="index"
           @click="selectChoice(choice)"
           :disabled="showAnswer"
-          class="p-4 rounded-xl border-2 text-left transition-all relative overflow-hidden group"
+          class="p-3 md:p-4 rounded-xl border-2 text-left transition-all relative overflow-hidden group"
           :class="getChoiceClass(choice)"
         >
-          <span class="font-medium text-lg relative z-10">{{ choice }}</span>
+          <span class="font-medium text-base md:text-lg relative z-10">{{ choice }}</span>
           
           <!-- Feedback Icon -->
           <span v-if="showAnswer && choice === question.correctAnswer" class="absolute right-4 top-1/2 -translate-y-1/2 text-2xl z-10">✅</span>

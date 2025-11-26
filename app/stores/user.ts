@@ -18,8 +18,8 @@ export const useUserStore = defineStore('user', {
     actions: {
         addToHistory(item: any) {
             this.history.unshift(item);
-            if (this.history.length > 50) {
-                this.history.pop(); // Keep last 50 items
+            if (this.history.length > 100) {
+                this.history.pop(); // Keep last 100 items
             }
             this.saveState();
         },
