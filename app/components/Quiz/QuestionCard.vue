@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-2xl mx-auto w-full">
     <!-- Progress Bar -->
-    <div class="mb-6 flex justify-between items-center text-sm font-medium text-gray-500">
+    <div class="mb-2 md:mb-4 flex justify-between items-center text-sm font-medium text-gray-500">
       <span>Question {{ currentNumber }} / {{ totalNumber }}</span>
       <span>{{ Math.round((currentNumber / totalNumber) * 100) }}%</span>
     </div>

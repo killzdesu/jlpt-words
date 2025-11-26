@@ -67,4 +67,4 @@ npm run preview
 
 ## 📝 License
 
-[MIT](LICENSE)
+[GPLv3](LICENSE)
