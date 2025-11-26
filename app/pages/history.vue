@@ -59,7 +59,7 @@
               class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
               :class="isFavorite(item.wordId) ? 'bg-yellow-100 text-yellow-700' : 'bg-white border border-neutral text-tertiary hover:bg-neutral'"
             >
-              <span>{{ isFavorite(item.wordId) ? '★' : '☆' }}</span>
+              <Icon :name="isFavorite(item.wordId) ? 'mingcute:star-fill' : 'mingcute:star-line'" />
               {{ isFavorite(item.wordId) ? 'Favorited' : 'Add to Favorites' }}
             </button>
             
@@ -68,7 +68,7 @@
               class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
               :class="isBlocked(item.wordId) ? 'bg-red-100 text-red-700' : 'bg-white border border-neutral text-tertiary hover:bg-neutral'"
             >
-              <span>{{ isBlocked(item.wordId) ? '🚫' : '⭕' }}</span>
+              <Icon :name="isBlocked(item.wordId) ? 'mingcute:close-circle-fill' : 'mingcute:close-circle-line'" />
               {{ isBlocked(item.wordId) ? 'Blocked' : 'Block Word' }}
             </button>
           </div>

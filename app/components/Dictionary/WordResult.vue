@@ -14,20 +14,19 @@
     <div class="flex gap-2">
       <button 
         @click="userStore.toggleFavorite(word.id)"
-        class="p-2 rounded-full hover:bg-secondary/20 transition-all duration-200"
-        :class="isFavorite ? 'text-secondary opacity-100' : 'text-tertiary/30 opacity-0 group-hover:opacity-100'"
+        class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-200"
+        :class="isFavorite ? 'text-yellow-500 opacity-100' : 'text-tertiary/30 opacity-0 group-hover:opacity-100'"
         title="Add to Favorites"
       >
-        <span v-if="isFavorite">❤️</span>
-        <span v-else>🤍</span>
+        <Icon :name="isFavorite ? 'mingcute:star-fill' : 'mingcute:star-line'" />
       </button>
       <button 
         @click="userStore.toggleBlocked(word.id)"
-        class="p-2 rounded-full hover:bg-neutral transition-all duration-200"
+        class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-neutral transition-all duration-200"
         :class="isBlocked ? 'text-red-500 opacity-100' : 'text-tertiary/30 opacity-0 group-hover:opacity-100'"
         title="Block Word"
       >
-        🚫
+        <Icon :name="isBlocked ? 'mingcute:close-circle-fill' : 'mingcute:close-circle-line'" />
       </button>
     </div>
   </div>

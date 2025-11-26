@@ -6,7 +6,13 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt',
     '@pinia/nuxt',
+    '@nuxt/icon',
   ],
+  icon: {
+    serverBundle: {
+      collections: ['mingcute'],
+    },
+  },
   css: ['~/assets/css/main.css'],
   pwa: {
     registerType: 'autoUpdate',

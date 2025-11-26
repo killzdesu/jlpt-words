@@ -26,18 +26,17 @@
         <div class="absolute top-4 left-4 flex gap-2">
           <button 
             @click.stop="toggleFavorite"
-            class="p-1.5 rounded-full bg-white border hover:bg-pink-50 transition-colors"
-            :class="isFavorite ? 'text-secondary border-secondary' : 'text-tertiary/50 border-neutral'"
+            class="w-10 h-10 flex items-center justify-center rounded-full bg-white border hover:bg-yellow-50 transition-colors"
+            :class="isFavorite ? 'text-yellow-500 border-yellow-500' : 'text-tertiary/50 border-neutral'"
           >
-            <span v-if="isFavorite">❤️</span>
-            <span v-else>🤍</span>
+            <Icon :name="isFavorite ? 'mingcute:star-fill' : 'mingcute:star-line'" />
           </button>
           <button 
             @click.stop="toggleBlocked"
-            class="p-1.5 rounded-full bg-white border hover:bg-neutral transition-colors"
+            class="w-10 h-10 flex items-center justify-center rounded-full bg-white border hover:bg-neutral transition-colors"
             :class="isBlocked ? 'text-red-500 border-red-500' : 'text-tertiary/50 border-neutral'"
           >
-            🚫
+            <Icon :name="isBlocked ? 'mingcute:close-circle-fill' : 'mingcute:close-circle-line'" />
           </button>
         </div>
       </div>
