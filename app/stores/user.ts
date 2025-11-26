@@ -14,6 +14,9 @@ export const useUserStore = defineStore('user', {
             showFurigana: true,
             showMeaning: true,
         },
+        dictionarySettings: {
+            levels: ['n5'],
+        },
     }),
     actions: {
         addToHistory(item: any) {
@@ -43,6 +46,10 @@ export const useUserStore = defineStore('user', {
         },
         updateSettings(newSettings: Partial<typeof this.settings>) {
             this.settings = { ...this.settings, ...newSettings };
+            this.saveState();
+        },
+        updateDictionarySettings(newSettings: Partial<typeof this.dictionarySettings>) {
+            this.dictionarySettings = { ...this.dictionarySettings, ...newSettings };
             this.saveState();
         },
         saveState() {

@@ -5,7 +5,10 @@ import { useHead } from '#app';
 const userStore = useUserStore();
 
 useHead({
-  link: [{ rel: 'manifest', href: '/manifest.webmanifest' }],
+  link: [
+    { rel: 'manifest', href: '/manifest.webmanifest' },
+    { rel: 'icon', href: '/favicon.ico' }
+  ],
   meta: [
     { name: 'theme-color', content: '#2D2363' },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },

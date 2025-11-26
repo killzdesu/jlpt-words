@@ -33,7 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { useUserStore } from '~/stores/user';
 
 const props = defineProps<{
   initialQuery?: string;
@@ -43,9 +44,11 @@ const emit = defineEmits<{
   (e: 'search', payload: { query: string; levels: string[] }): void;
 }>();
 
+const userStore = useUserStore();
 const query = ref(props.initialQuery || '');
 const levels = ['n1', 'n2', 'n3', 'n4', 'n5'];
-const selectedLevels = ref<string[]>(['n5']); // Default to N5
+// Initialize from store, fallback to N5 if empty (though store default is N5)
+const selectedLevels = ref<string[]>(userStore.dictionarySettings?.levels || ['n5']);
 
 const toggleLevel = (level: string) => {
   if (selectedLevels.value.includes(level)) {
@@ -53,6 +56,8 @@ const toggleLevel = (level: string) => {
   } else {
     selectedLevels.value.push(level);
   }
+  // Update store
+  userStore.updateDictionarySettings({ levels: selectedLevels.value });
   emitSearch();
 };
 
