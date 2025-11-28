@@ -81,7 +81,8 @@ const filteredWords = computed(() => {
     result = result.filter(w => 
       w.word.toLowerCase().includes(q) || 
       w.reading.toLowerCase().includes(q) || 
-      w.meaning.toLowerCase().includes(q)
+      w.meaning.toLowerCase().includes(q) ||
+      (w.romaji || '').toLowerCase().includes(q)
     );
   }
 
