@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { parseCSV } from '~/utils/csvParser';
+import { toRomaji } from 'wanakana';
 
 export interface Word {
     id: string;
@@ -7,6 +8,7 @@ export interface Word {
     reading: string;
     meaning: string;
     level: string;
+    romaji: string;
 }
 
 export interface Kanji {
@@ -43,7 +45,8 @@ export const useWords = () => {
                         word: row.expression,
                         reading: row.reading,
                         meaning: row.meaning,
-                        level: level.toUpperCase()
+                        level: level.toUpperCase(),
+                        romaji: row.reading ? toRomaji(row.reading) : ''
                     }));
 
                     allWords.push(...mapped);
