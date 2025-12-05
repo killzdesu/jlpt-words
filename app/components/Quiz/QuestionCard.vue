@@ -100,9 +100,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useUserStore } from '~/stores/user';
+import type { Question } from '~/types';
 
 const props = defineProps<{
-  question: any;
+  question: Question;
   currentNumber: number;
   totalNumber: number;
   showAnswer: boolean;

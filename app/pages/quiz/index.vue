@@ -19,7 +19,7 @@
 
         <!-- State: Playing -->
         <QuestionCard 
-          v-else-if="gameState === 'playing'"
+          v-else-if="gameState === 'playing' && currentQuestion"
           :question="currentQuestion"
           :current-number="currentIndex + 1"
           :total-number="questions.length"
@@ -53,13 +53,16 @@ import QuestionCard from '~/components/Quiz/QuestionCard.vue';
 import KanjiDetail from '~/components/Quiz/KanjiDetail.vue';
 import QuizSummary from '~/components/Quiz/QuizSummary.vue';
 
+import type { Word, Kanji } from '~/composables/useWords';
+import type { Question } from '~/types';
+
 const { words, kanjiList, loading, error, loadWords, loadKanji } = useWords();
 const userStore = useUserStore();
 
 type GameState = 'setting' | 'playing' | 'summary';
 const gameState = ref<GameState>('setting');
 
-const questions = ref<any[]>([]);
+const questions = ref<Question[]>([]);
 const currentIndex = ref(0);
 const showAnswer = ref(false);
 const selectedChoice = ref<string | null>(null);
@@ -76,7 +79,7 @@ const generateQuiz = () => {
   const count = settings.quizCount;
   const levels = settings.jlptLevels.map(l => l.toUpperCase());
   
-  let pool: any[] = [];
+  let pool: (Word | Kanji)[] = [];
 
   if (settings.quizType === 'kanji-reading') {
     // Filter Kanji
@@ -90,10 +93,10 @@ const generateQuiz = () => {
     pool = words.value.filter(w => levels.includes(w.level));
     
     if (settings.onlyFavorites) {
-      pool = pool.filter(w => userStore.favorites.includes(w.id));
+      pool = pool.filter(w => 'id' in w && userStore.favorites.includes(w.id));
     }
     if (settings.excludeBlocked) {
-      pool = pool.filter(w => !userStore.blocked.includes(w.id));
+      pool = pool.filter(w => 'id' in w && !userStore.blocked.includes(w.id));
     }
   }
 
@@ -110,21 +113,25 @@ const generateQuiz = () => {
 
   questions.value = selectedItems.map(item => {
     // Generate choices
-    const isKanji = settings.quizType === 'kanji-reading';
+    const isKanjiItem = (i: Word | Kanji): i is Kanji => 'kanji' in i;
     
     const formatKanjiReading = (reading: string) => {
       return reading.replace(/-/g, '.').replace(/\|/g, ', ');
     };
 
-    const correctAnswer = isKanji 
-      ? formatKanjiReading(`${item.onyomi} / ${item.kunyomi}`)
+    const getItemText = (i: Word | Kanji) => isKanjiItem(i) ? i.kanji : i.word;
+    const getItemMeaning = (i: Word | Kanji) => i.meaning;
+    const getItemReading = (i: Word | Kanji) => isKanjiItem(i) ? formatKanjiReading(`${i.onyomi} / ${i.kunyomi}`) : i.reading;
+
+    const correctAnswer = isKanjiItem(item)
+      ? getItemReading(item)
       : (settings.quizType === 'jp-en' ? item.meaning : item.word);
     
-    const questionText = isKanji 
+    const questionText = isKanjiItem(item)
       ? item.kanji 
       : (settings.quizType === 'jp-en' ? item.word : item.meaning);
 
-    const hint = isKanji ? item.meaning : (settings.quizType === 'jp-en' ? item.reading : '');
+    const hint = isKanjiItem(item) ? item.meaning : (settings.quizType === 'jp-en' ? item.reading : '');
 
     // Generate distractors
     const distractors = pool
@@ -132,23 +139,23 @@ const generateQuiz = () => {
       .sort(() => Math.random() - 0.5)
       .slice(0, 3)
       .map(i => {
-        if (isKanji) return formatKanjiReading(`${i.onyomi} / ${i.kunyomi}`);
+        if (isKanjiItem(i)) return formatKanjiReading(`${i.onyomi} / ${i.kunyomi}`);
         return settings.quizType === 'jp-en' ? i.meaning : i.word;
       });
 
     const choices = [correctAnswer, ...distractors].sort(() => Math.random() - 0.5);
 
     return {
-      wordId: item.id || item.kanji, // Kanji might not have ID, use char
-      wordText: isKanji ? item.kanji : item.word, // For KanjiDetail lookup
+      wordId: isKanjiItem(item) ? item.kanji : item.id,
+      wordText: isKanjiItem(item) ? item.kanji : item.word,
       level: item.level,
       questionText,
       correctAnswer,
       choices,
       hint,
-      type: settings.quizType, // Pass quiz type to question card
+      type: settings.quizType,
       detail: {
-        reading: isKanji ? formatKanjiReading(`${item.onyomi} / ${item.kunyomi}`) : item.reading,
+        reading: getItemReading(item),
         meaning: item.meaning
       }
     };
@@ -162,6 +169,8 @@ const generateQuiz = () => {
 const handleAnswer = (answer: string) => {
   if (showAnswer.value) return;
   
+  if (!currentQuestion.value) return;
+
   const isCorrect = answer === currentQuestion.value.correctAnswer;
   if (isCorrect) {
     // Score tracking if needed, currently just results array
@@ -169,10 +178,17 @@ const handleAnswer = (answer: string) => {
   
   // Record history
   userStore.addToHistory({
-    ...currentQuestion.value,
-    userAnswer: answer,
-    isCorrect,
-    timestamp: Date.now()
+    question: currentQuestion.value.questionText,
+    answer: answer,
+    correctAnswer: currentQuestion.value.correctAnswer,
+    correct: isCorrect,
+    date: new Date().toISOString(),
+    // Additional metadata
+    wordId: currentQuestion.value.wordId,
+    wordText: currentQuestion.value.wordText,
+    level: currentQuestion.value.level,
+    type: currentQuestion.value.type,
+    detail: currentQuestion.value.detail
   });
 
   selectedChoice.value = answer;

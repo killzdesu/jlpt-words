@@ -21,6 +21,9 @@ importers:
         specifier: ^5.3.1
         version: 5.3.1
     devDependencies:
+      '@iconify-json/mingcute':
+        specifier: ^1.2.5
+        version: 1.2.5
       '@nuxt/icon':
         specifier: ^2.1.0
         version: 2.1.0(magicast@0.5.1)(vite@7.2.4(jiti@2.6.1)(terser@5.44.1)(yaml@2.8.1))(vue@3.5.25)
@@ -760,6 +763,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@iconify-json/mingcute@1.2.5':
+    resolution: {integrity: sha512-LKlW4wahStprbfJcpzUnuayObOVAuztgYSy3v5oTke6cBJNfqEeE/mtMhHgpoSgGJvo5hhde2Q0+DoxKEldY2A==}
 
   '@iconify/collections@1.0.622':
     resolution: {integrity: sha512-HMTAEh/0GdZe3XoDeelIH6St5LxmPzaWIXCBVhOXUVC6XdWILOCafimpp2SkDqDmpoqZBk9CwDHR3IPf/fXyQQ==}
@@ -5440,6 +5446,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.12':
     optional: true
+
+  '@iconify-json/mingcute@1.2.5':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify/collections@1.0.622':
     dependencies:

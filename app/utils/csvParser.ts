@@ -20,11 +20,11 @@ export const parseCSV = <T>(csvText: string): Promise<T[]> => {
             if (!currentLine || !currentLine.trim()) continue;
 
             const values = parseLine(currentLine);
-            const obj: any = {};
+            const obj = {} as T;
             headers.forEach((header, index) => {
-                obj[header] = values[index] || '';
+                (obj as any)[header] = values[index] || '';
             });
-            result.push(obj as T);
+            result.push(obj);
         }
         resolve(result);
     });

@@ -19,6 +19,21 @@ export interface Kanji {
     level: string;
 }
 
+interface WordRow {
+    expression: string;
+    reading: string;
+    meaning: string;
+    tags: string;
+}
+
+interface KanjiRow {
+    kanji: string;
+    on: string;
+    kun: string;
+    meanings: string;
+    jlpt: string;
+}
+
 export const useWords = () => {
     const words = ref<Word[]>([]);
     const kanjiList = ref<Kanji[]>([]);
@@ -38,9 +53,9 @@ export const useWords = () => {
                     const response = await fetch(`/jlpt/${level}.csv`);
                     if (!response.ok) throw new Error(`Failed to load ${level}.csv`);
                     const text = await response.text();
-                    const parsed = await parseCSV<any>(text);
+                    const parsed = await parseCSV<WordRow>(text);
 
-                    const mapped = parsed.map((row: any, index: number) => ({
+                    const mapped = parsed.map((row: WordRow, index: number) => ({
                         id: `${level}-${index}`,
                         word: row.expression,
                         reading: row.reading,
@@ -55,8 +70,8 @@ export const useWords = () => {
                 }
             }
             words.value = allWords;
-        } catch (e: any) {
-            error.value = e.message;
+        } catch (e: unknown) {
+            error.value = e instanceof Error ? e.message : String(e);
         } finally {
             loading.value = false;
         }
@@ -68,9 +83,9 @@ export const useWords = () => {
             const response = await fetch('/jlpt/joyo.csv');
             if (!response.ok) throw new Error('Failed to load joyo.csv');
             const text = await response.text();
-            const parsed = await parseCSV<any>(text);
+            const parsed = await parseCSV<KanjiRow>(text);
 
-            kanjiList.value = parsed.map((row: any) => ({
+            kanjiList.value = parsed.map((row: KanjiRow) => ({
                 kanji: row.kanji,
                 onyomi: row.on ? row.on.replace(/-/g, '.').replace(/\|/g, ', ') : '',
                 kunyomi: row.kun ? row.kun.replace(/-/g, '.').replace(/\|/g, ', ') : '',

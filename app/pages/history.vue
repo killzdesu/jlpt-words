@@ -31,22 +31,22 @@
           <div class="flex items-center gap-4">
             <div 
               class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
-              :class="item.isCorrect ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'"
+              :class="item.correct ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'"
             >
-              {{ item.isCorrect ? '✓' : '✗' }}
+              {{ item.correct ? '✓' : '✗' }}
             </div>
             <div>
-              <p class="font-bold text-text text-lg">{{ item.questionText }}</p>
+              <p class="font-bold text-text text-lg">{{ item.question }}</p>
               <p class="text-sm text-tertiary">
                 {{ item.correctAnswer }}
-                <span v-if="!item.isCorrect" class="text-red-500 ml-2">
-                  (You: {{ item.userAnswer }})
+                <span v-if="!item.correct" class="text-red-500 ml-2">
+                  (You: {{ item.answer }})
                 </span>
               </p>
             </div>
           </div>
           <div class="flex items-center gap-3">
-             <span class="text-xs text-tertiary hidden sm:inline-block">{{ formatDate(item.timestamp) }}</span>
+             <span class="text-xs text-tertiary hidden sm:inline-block">{{ formatDate(item.date) }}</span>
              <span class="text-tertiary transform transition-transform duration-300" :class="{ 'rotate-180': expandedIndex === index }">▼</span>
           </div>
         </div>
@@ -99,9 +99,9 @@ const isBlocked = (wordId: string) => userStore.blocked.includes(wordId);
 const toggleFavorite = (wordId: string) => userStore.toggleFavorite(wordId);
 const toggleBlocked = (wordId: string) => userStore.toggleBlocked(wordId);
 
-const formatDate = (timestamp: number) => {
-  if (!timestamp) return '';
-  return new Date(timestamp).toLocaleString();
+const formatDate = (dateString: string) => {
+  if (!dateString) return '';
+  return new Date(dateString).toLocaleString();
 };
 
 useHead({

@@ -1,10 +1,21 @@
 import { defineStore } from 'pinia';
 
+export interface HistoryItem {
+    question: string;
+    answer: string;
+    correctAnswer: string;
+    correct: boolean;
+    date: string;
+    wordId: string;
+    wordText: string;
+    [key: string]: any;
+}
+
 export const useUserStore = defineStore('user', {
     state: () => ({
         favorites: [] as string[],
         blocked: [] as string[],
-        history: [] as any[], // Store answered questions
+        history: [] as HistoryItem[], // Store answered questions
         settings: {
             quizCount: 10,
             quizType: 'jp-en',
@@ -19,7 +30,7 @@ export const useUserStore = defineStore('user', {
         },
     }),
     actions: {
-        addToHistory(item: any) {
+        addToHistory(item: HistoryItem) {
             this.history.unshift(item);
             if (this.history.length > 100) {
                 this.history.pop(); // Keep last 100 items
