@@ -1,7 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+
+const packageJson = JSON.parse(
+  readFileSync(resolve(__dirname, 'package.json'), 'utf-8')
+)
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      appVersion: packageJson.version,
+    },
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt',

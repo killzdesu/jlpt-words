@@ -47,12 +47,15 @@
     </div>
 
     <div class="mt-8 text-center">
-      <p class="text-xs text-tertiary">v1.0.7</p>
+      <p class="text-xs text-tertiary">v{{ appVersion }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig()
+const appVersion = config.public.appVersion
+
 useHead({
   title: 'Home - JLPT Master',
   meta: [
