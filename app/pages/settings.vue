@@ -45,6 +45,34 @@
         </div>
       </section>
 
+      <section>
+        <h2 class="text-xl font-semibold text-text mb-4">Dictionary Preference</h2>
+        <div class="space-y-4">
+          <label class="flex items-center justify-between cursor-pointer p-3 border rounded-lg hover:bg-neutral transition-colors">
+            <div>
+              <span class="text-text block">Kanji Example Source</span>
+              <span class="text-xs text-tertiary">Choose where to get example words for Kanji</span>
+            </div>
+            <div class="flex items-center gap-2 bg-neutral p-1 rounded-lg">
+               <button 
+                class="px-3 py-1 rounded-md text-sm font-medium transition-all"
+                :class="(userStore.settings.kanjiExampleSource || 'jlpt') === 'jlpt' ? 'bg-white shadow text-primary' : 'text-tertiary hover:text-text'"
+                @click.stop="userStore.updateSettings({ kanjiExampleSource: 'jlpt' })"
+               >
+                 JLPT (N5-N1)
+               </button>
+               <button 
+                class="px-3 py-1 rounded-md text-sm font-medium transition-all"
+                :class="userStore.settings.kanjiExampleSource === 'jpdb' ? 'bg-white shadow text-primary' : 'text-tertiary hover:text-text'"
+                @click.stop="userStore.updateSettings({ kanjiExampleSource: 'jpdb' })"
+               >
+                 JPDB (200k+)
+               </button>
+            </div>
+          </label>
+        </div>
+      </section>
+
       <section class="pt-8 border-t">
         <h2 class="text-xl font-semibold text-text mb-4">Credits</h2>
         <div class="bg-neutral p-4 rounded-lg">

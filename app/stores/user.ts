@@ -24,6 +24,7 @@ export const useUserStore = defineStore('user', {
             excludeBlocked: true,
             showFurigana: true,
             showMeaning: true,
+            kanjiExampleSource: 'jlpt' as 'jlpt' | 'jpdb',
         },
         dictionarySettings: {
             levels: ['n5'],
@@ -72,7 +73,21 @@ export const useUserStore = defineStore('user', {
             if (import.meta.client) {
                 const stored = localStorage.getItem('jlpt-user-store');
                 if (stored) {
-                    this.$state = JSON.parse(stored);
+                    const parsed = JSON.parse(stored);
+
+                    // Restore top-level arrays
+                    if (parsed.favorites) this.favorites = parsed.favorites;
+                    if (parsed.blocked) this.blocked = parsed.blocked;
+                    if (parsed.history) this.history = parsed.history;
+
+                    // Merge settings objects to preserve new defaults (like kanjiExampleSource)
+                    if (parsed.settings) {
+                        this.settings = { ...this.settings, ...parsed.settings };
+                    }
+
+                    if (parsed.dictionarySettings) {
+                        this.dictionarySettings = { ...this.dictionarySettings, ...parsed.dictionarySettings };
+                    }
                 }
             }
         }

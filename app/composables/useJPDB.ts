@@ -138,6 +138,33 @@ function loadDataViaWorker(): Promise<void> {
 }
 
 /**
+ * Search words containing a specific Kanji using Web Worker
+ */
+function searchWords(kanji: string, limit: number = 20): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+        const worker = new Worker('/workers/jpdb-worker.js');
+
+        worker.onmessage = (event) => {
+            const { type, results, message } = event.data;
+            if (type === 'searchResults') {
+                worker.terminate();
+                resolve(results);
+            } else if (type === 'error') {
+                worker.terminate();
+                reject(new Error(message));
+            }
+        };
+
+        worker.onerror = (e) => {
+            worker.terminate();
+            reject(new Error(e.message));
+        };
+
+        worker.postMessage({ action: 'search', kanji, limit });
+    });
+}
+
+/**
  * Get frequency for a single word
  */
 async function getFrequency(word: string): Promise<number | null> {
@@ -223,6 +250,7 @@ export function useJPDB() {
         getFrequency,
         getFrequencies,
         forceReload,
-        initialize
+        initialize,
+        searchWords
     };
 }

@@ -105,5 +105,52 @@ self.onmessage = async (event) => {
                 message: error instanceof Error ? error.message : String(error)
             });
         }
+    } else if (action === 'search') {
+        const { kanji, limit = 20 } = event.data;
+        try {
+            const db = await initDB();
+            const results = [];
+
+            await new Promise((resolve, reject) => {
+                const transaction = db.transaction(STORE_NAME, 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                // Use a cursor to scan. Since we need 'contains', we can't use a simple index range effectively for arbitrary characters 
+                // unless we index every character, which is too heavy.
+                // A full scan of 200k items is fast enough in a worker (~100-200ms).
+                const request = store.openCursor();
+
+                request.onerror = () => reject(request.error);
+                request.onsuccess = (e) => {
+                    const cursor = e.target.result;
+                    if (cursor) {
+                        const word = cursor.value.word;
+                        if (word.includes(kanji) && word !== kanji) {
+                            results.push(cursor.value);
+                        }
+                        cursor.continue();
+                    } else {
+                        resolve();
+                    }
+                };
+            });
+
+            // Sort by frequency (ascending)
+            results.sort((a, b) => a.frequency - b.frequency);
+
+            // Limit results
+            const finalResults = results.slice(0, limit);
+
+            self.postMessage({
+                type: 'searchResults',
+                results: finalResults,
+                kanji
+            });
+
+        } catch (error) {
+            self.postMessage({
+                type: 'error',
+                message: error instanceof Error ? error.message : String(error)
+            });
+        }
     }
 };
