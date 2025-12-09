@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user';
 import { useHead } from '#app';
+import { useJPDB } from '~/composables/useJPDB';
+import Toast from '~/components/UI/Toast.vue';
 
 const userStore = useUserStore();
+
+// Initialize JPDB data on app start
+const jpdb = useJPDB();
 
 useHead({
   link: [
@@ -25,4 +30,6 @@ onMounted(() => {
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
+  <Toast />
 </template>
+

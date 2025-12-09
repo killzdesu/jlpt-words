@@ -53,24 +53,41 @@
 
         <!-- Expanded Details -->
         <div v-if="expandedIndex === index" class="border-t border-neutral bg-neutral/50 p-4">
-          <div class="flex flex-wrap gap-2 mb-4">
-            <button 
-              @click.stop="toggleFavorite(item.wordId)"
-              class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
-              :class="isFavorite(item.wordId) ? 'bg-yellow-100 text-yellow-700' : 'bg-white border border-neutral text-tertiary hover:bg-neutral'"
-            >
-              <Icon :name="isFavorite(item.wordId) ? 'mingcute:star-fill' : 'mingcute:star-line'" />
-              {{ isFavorite(item.wordId) ? 'Favorited' : 'Add to Favorites' }}
-            </button>
-            
-            <button 
-              @click.stop="toggleBlocked(item.wordId)"
-              class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
-              :class="isBlocked(item.wordId) ? 'bg-red-100 text-red-700' : 'bg-white border border-neutral text-tertiary hover:bg-neutral'"
-            >
-              <Icon :name="isBlocked(item.wordId) ? 'mingcute:close-circle-fill' : 'mingcute:close-circle-line'" />
-              {{ isBlocked(item.wordId) ? 'Blocked' : 'Block Word' }}
-            </button>
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <!-- Left: Actions -->
+            <div class="flex gap-2">
+              <button 
+                @click.stop="toggleFavorite(item.wordId)"
+                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                :class="isFavorite(item.wordId) ? 'bg-yellow-100 text-yellow-700' : 'bg-white border border-neutral text-tertiary hover:bg-neutral'"
+              >
+                <Icon :name="isFavorite(item.wordId) ? 'mingcute:star-fill' : 'mingcute:star-line'" />
+                {{ isFavorite(item.wordId) ? 'Favorited' : 'Add to Favorites' }}
+              </button>
+              
+              <button 
+                @click.stop="toggleBlocked(item.wordId)"
+                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                :class="isBlocked(item.wordId) ? 'bg-red-100 text-red-700' : 'bg-white border border-neutral text-tertiary hover:bg-neutral'"
+              >
+                <Icon :name="isBlocked(item.wordId) ? 'mingcute:close-circle-fill' : 'mingcute:close-circle-line'" />
+                {{ isBlocked(item.wordId) ? 'Blocked' : 'Block Word' }}
+              </button>
+            </div>
+
+            <!-- Right: Badges -->
+            <div class="flex items-center gap-2">
+              <span v-if="item.level" class="inline-block px-2 py-0.5 bg-neutral text-xs font-medium text-tertiary rounded border border-neutral-dark/10">
+                {{ item.level }}
+              </span>
+              <span 
+                v-if="currentFrequency !== null" 
+                class="inline-block px-2 py-0.5 bg-primary/10 text-xs font-medium text-primary rounded border border-primary/20"
+                title="JPDB Frequency Rank"
+              >
+                #{{ currentFrequency.toLocaleString() }}
+              </span>
+            </div>
           </div>
 
           <KanjiDetail :word="item.wordText" />
@@ -81,17 +98,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useUserStore } from '~/stores/user';
+import { useJPDB } from '~/composables/useJPDB';
 import KanjiDetail from '~/components/Quiz/KanjiDetail.vue';
 
 const userStore = useUserStore();
+const { getFrequency, isReady } = useJPDB();
 const history = computed(() => userStore.history);
 const expandedIndex = ref<number | null>(null);
+const currentFrequency = ref<number | null>(null);
 
 const toggleExpand = (index: number) => {
   expandedIndex.value = expandedIndex.value === index ? null : index;
 };
+
+// Fetch frequency when expanded index changes
+watch(expandedIndex, async (newIndex) => {
+  currentFrequency.value = null; // Reset
+  if (newIndex !== null && history.value[newIndex]) {
+    const item = history.value[newIndex];
+    // Only fetch for words, not pure kanji questions if they don't have word text
+    if (item.wordText && isReady.value) {
+      currentFrequency.value = await getFrequency(item.wordText);
+    }
+  }
+});
 
 const isFavorite = (wordId: string) => userStore.favorites.includes(wordId);
 const isBlocked = (wordId: string) => userStore.blocked.includes(wordId);

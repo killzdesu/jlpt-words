@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useWords } from '~/composables/useWords';
+import { useWords, type Kanji } from '~/composables/useWords';
 
 const props = defineProps<{
   word: string; // The Japanese word containing Kanji
@@ -46,7 +46,7 @@ const kanjiDetails = computed(() => {
   if (!kanjiList.value || kanjiList.value.length === 0) return [];
   if (!props.word) return [];
   
-  const result = [];
+  const result: Kanji[] = [];
   const seen = new Set();
 
   for (const char of props.word) {

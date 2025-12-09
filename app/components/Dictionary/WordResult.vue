@@ -6,9 +6,18 @@
         <span class="text-sm text-tertiary font-mono">{{ word.reading }}</span>
       </div>
       <p class="text-text">{{ word.meaning }}</p>
-      <span class="inline-block mt-2 px-2 py-0.5 bg-neutral text-xs font-medium text-tertiary rounded">
-        {{ word.level }}
-      </span>
+      <div class="flex items-center gap-2 mt-2">
+        <span class="inline-block px-2 py-0.5 bg-neutral text-xs font-medium text-tertiary rounded">
+          {{ word.level }}
+        </span>
+        <span 
+          v-if="frequency !== null" 
+          class="inline-block px-2 py-0.5 bg-primary/10 text-xs font-medium text-primary rounded"
+          title="JPDB Frequency Rank"
+        >
+          #{{ frequency.toLocaleString() }}
+        </span>
+      </div>
     </div>
     
     <div class="flex gap-2">
@@ -33,8 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useUserStore } from '~/stores/user';
+import { useJPDB } from '~/composables/useJPDB';
 import type { Word } from '~/composables/useWords';
 
 const props = defineProps<{
@@ -42,7 +52,22 @@ const props = defineProps<{
 }>();
 
 const userStore = useUserStore();
+const { getFrequency, isReady } = useJPDB();
+
+const frequency = ref<number | null>(null);
 
 const isFavorite = computed(() => userStore.favorites.includes(props.word.id));
 const isBlocked = computed(() => userStore.blocked.includes(props.word.id));
+
+// Fetch frequency when JPDB is ready or word changes
+watch(
+  [() => props.word.word, isReady],
+  async ([word, ready]) => {
+    if (ready && word) {
+      frequency.value = await getFrequency(word);
+    }
+  },
+  { immediate: true }
+);
 </script>
+
